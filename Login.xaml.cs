@@ -76,9 +76,6 @@ namespace Chat
 
             if (!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
             {
-                errormesage_back.Visibility = Visibility.Visible;
-                errormesage_text.Visibility = Visibility.Visible;
-
                 var authenticateUser = new AuthenticateUser("http://127.0.0.1:5000/check-user");
                 var result = await authenticateUser.AuthenticateAsync(Username.Text, ComputeSha512Hash(Password.Password));
 
@@ -87,6 +84,8 @@ namespace Chat
                 if (resultsplit[0] == "Error")
                 {
                     errormesage_text.Text = resultsplit[1];
+                    errormesage_back.Visibility = Visibility.Visible;
+                    errormesage_text.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -94,6 +93,8 @@ namespace Chat
                     //errormesage_text.Text = resultsplit[1];
                     errormesage_text.Text = "Login Success";
                     errormesage_text.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00ff26"));
+                    errormesage_back.Visibility = Visibility.Visible;
+                    errormesage_text.Visibility = Visibility.Visible;
                     Window1 _chatwindow = new(Username.Text, resultsplit[1]);
                     _chatwindow.Show();
                     this.Close();
