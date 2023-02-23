@@ -6,6 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <BitmapImage x:Key="loginimage" UriSource="assets\images\login.png" />
+            <BitmapImage x:Key="send" UriSource="assets\images\send.png" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -23,5 +23,32 @@ namespace Chat
         {
             InitializeComponent();
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(this.WindowState == WindowState.Normal)
+            {
+                this.WindowState = WindowState.Minimized;
+            }
+        }
+
+        private void Drag_Window(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
+        void OnLoad(object sender, RoutedEventArgs e)
+        {
+            username_txt.Text = "@VLevente";
+            mymessage.Focus();
+        }
     }
 }

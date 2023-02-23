@@ -81,7 +81,7 @@
                 </Button.Template>
             </Button>
 
-            <TextBlock Panel.ZIndex="10" Text="Username:" Grid.Row="2" Grid.Column="1">
+            <TextBlock x:Name="Uname" Panel.ZIndex="10" Text="Username:" Grid.Row="2" Grid.Column="1">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
@@ -216,6 +216,18 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
+
+            <Border Visibility="Hidden" Name="errormesage_back" Grid.Column="1" Grid.Row="9" Background="Gray" Width="200" Height="25" CornerRadius="20"/>
+            <StackPanel Grid.Column="1" Grid.Row="9" Margin="0,23,0,0">
+                <TextBlock Visibility="Hidden" Name="errormesage_text" Text="PLACEHOLDER"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="13"
+                           FontWeight="Bold"
+                       Foreground="Red"
+                       Height="30"/>
+            </StackPanel>
+            
 
         </Grid>
     </Border>

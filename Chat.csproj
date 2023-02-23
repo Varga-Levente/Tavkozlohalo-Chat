@@ -13,6 +13,7 @@
     <None Remove="assets\images\login_.png" />
     <None Remove="assets\images\login__.png" />
     <None Remove="assets\images\login___.png" />
+    <None Remove="assets\images\send.png" />
     <None Remove="assets\login.png" />
   </ItemGroup>
 
@@ -34,6 +35,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="assets\images\login___.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\images\send.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

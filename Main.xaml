@@ -3,10 +3,209 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Chat"
+        xmlns:local="clr-namespace:Chat" xmlns:viewmodel="clr-namespace:Chat.ViewModel"
         mc:Ignorable="d"
-        Title="Chat" Height="450" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid>
+        Title="Chat" 
+        Height="450" Width="800" 
+        WindowStartupLocation="CenterScreen"
+        Background="#181735"
+        Foreground="White"
+        ResizeMode="NoResize"
+        WindowStyle="None">
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel />
+    </Window.DataContext>
+
+    <Grid ShowGridLines="False" Loaded="OnLoad">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*" />
+            <ColumnDefinition Width="2.3*" />
+            <ColumnDefinition Width="11*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="0.2*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="0.2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            
+            <RowDefinition Height="0.2*" />
+
+            <RowDefinition Height="10*" />
+
+            <RowDefinition Height="0.2*" />
+
+            <RowDefinition Height="1*" />
+
+            <RowDefinition Height="0.2*" />
+        </Grid.RowDefinitions>
         
+        <!--Top Bar-->
+        <StackPanel Panel.ZIndex="10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9" MouseDown="Drag_Window" Margin="0,-2,0,0">
+            <Border Width="1000"
+                     Height="35"
+                     Background="#383660"
+                     CornerRadius="5"/>
+            
+        </StackPanel>
+        <!--Top Bar 2nd layer-->
+        <StackPanel Panel.ZIndex="11" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" MouseDown="Drag_Window" Margin="0,-2,0,0">
+            <Border Width="1000"
+                     Height="35"
+                     Background="Transparent"
+                     CornerRadius="5"/>
+
+        </StackPanel>
+
+        <!--Chat Text-->
+        <TextBlock Panel.ZIndex="10" Text="CHAT" Grid.Row="0" Grid.Column="1">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontSize" Value="32" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="5,0,0,5" />
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <!--Server status-->
+        <StackPanel Panel.ZIndex="10" Grid.Row="0" Grid.Column="5" Orientation="Horizontal">
+            <TextBlock Text="Server">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="5,0,0,4" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Border Background="Red" Width="15" Height="15" CornerRadius="50" VerticalAlignment="Center" Margin="5,0,0,3"/>
+        </StackPanel>
+
+        <!--Username text-->
+        <TextBlock Name="username_txt" Panel.ZIndex="10" Text="@Username" Grid.Row="0" Grid.Column="2">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="Padding" Value="0,0,0,8" />
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <StackPanel Panel.ZIndex="12" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <!--Talca Button-->
+            <Button Content="-"
+                Foreground="White"
+                FontSize="14"
+                Click="MinimizeButton_Click"
+                Margin="20,0,0,3">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
+                        <Setter Property="FontSize" Value="10"/>
+                        <Setter Property="Background" Value="#3a90f2" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="10" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#327cd1" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="25" Height="25"
+                                CornerRadius="50"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
+            <!--Close Button-->
+            <Button Content="X"
+                Foreground="White"
+                FontSize="14"
+                Click="CloseButton_Click"
+                Margin="5,0,0,3">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
+                        <Setter Property="FontSize" Value="10"/>
+                        <Setter Property="Background" Value="#FF2511" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="10" />
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#db2514" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="25" Height="25"
+                                CornerRadius="50"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+
+            <!--Chatting area-->
+        <Border Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" CornerRadius="5" Background="#383660">
+            <StackPanel>
+                <ListView Height="356" Background="Transparent" BorderThickness="0"/>
+            </StackPanel>
+        </Border>
+
+        <!--Online User area-->
+        <Border Grid.Column="5" Grid.RowSpan="3" Grid.Row="2" Grid.ColumnSpan="3" CornerRadius="5" Background="#383660">
+            <StackPanel>
+                <ListView Height="400" Background="Transparent" BorderThickness="0"/>
+            </StackPanel>
+        </Border>
+
+        <!--Message area-->
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" CornerRadius="5" Background="#383660">
+            <StackPanel>
+                <TextBox Name="mymessage" Height="36" Background="Transparent" BorderBrush="Transparent" Foreground="White" CaretBrush="White" FontSize="20" VerticalContentAlignment="Center" BorderThickness="0" Margin="0,0,0,0"/>
+                <StackPanel.Style>
+                    <Style>
+
+                    </Style>
+                </StackPanel.Style>
+            </StackPanel>
+        </Border>
+    
+        <!--Send Mesaage Button-->
+
+        <Button Name="msgsend" Grid.Column="3" Grid.Row="4" BorderThickness="0" Width="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+            <Image Source="{StaticResource send}"  />
+        </Button>
+
     </Grid>
 </Window>

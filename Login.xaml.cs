@@ -1,31 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
+﻿using Chat.Net;
+using System;
+using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
-using MySql.Data;
 
 namespace Chat
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        static string ComputeSha512Hash(string s)
+        {
+            StringBuilder sb = new StringBuilder();
+            using (SHA512 sha512 = SHA512.Create())
+            {
+                byte[] hashValue = sha512.ComputeHash(Encoding.UTF8.GetBytes(s));
+                foreach (byte b in hashValue)
+                {
+                    sb.Append($"{b:X2}");
+                }
+            }
+
+            return sb.ToString().ToLower();
         }
 
         private void Drag_Window(object sender, MouseButtonEventArgs e)
@@ -41,21 +48,53 @@ namespace Chat
             Close();
         }
 
-        private void LoginBTN(object sender, RoutedEventArgs e)
+        private async void LoginBTN(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(Username.Text))
             {
                 Username.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#c94238");
+                errormesage_back.Visibility = Visibility.Visible;
+                errormesage_text.Visibility = Visibility.Visible;
+                errormesage_text.Text = "Empty Username";
+            }
+            else
+            {
+                Username.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("White");
             }
 
             if (string.IsNullOrEmpty(Password.Password))
             {
                 Password.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#c94238");
+                errormesage_back.Visibility = Visibility.Visible;
+                errormesage_text.Visibility = Visibility.Visible;
+                errormesage_text.Text = "Empty Password";
+            }
+            else
+            {
+                Password.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("White");
             }
 
-            if(!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
+            if (!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
             {
+                errormesage_back.Visibility = Visibility.Visible;
+                errormesage_text.Visibility = Visibility.Visible;
 
+                var authenticateUser = new AuthenticateUser("http://127.0.0.1:5000/check-user");
+                var result = await authenticateUser.AuthenticateAsync(Username.Text, ComputeSha512Hash(Password.Password));
+
+                var resultsplit = result.Split(':');
+
+                if (resultsplit[0] == "Error")
+                {
+                    errormesage_text.Text = resultsplit[1];
+                }
+                else
+                {
+                    //Returns Chat Server IP
+                    //errormesage_text.Text = resultsplit[1];
+                    errormesage_text.Text = "Login Success";
+                    errormesage_text.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00ff26"));
+                }
             }
         }
     }
