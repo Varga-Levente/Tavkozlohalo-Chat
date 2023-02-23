@@ -8,140 +8,212 @@
         Title="Login | Chat"
         Height="400" Width="300"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
         Background="#181735"
-        Foreground="White">
-    <Grid ShowGridLines="False">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="4*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="4*" />
+        Foreground="White"
+        ResizeMode="NoResize"
+        WindowStyle="None">
+    <Border CornerRadius="25"  >
+        <Grid ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
 
-            <RowDefinition Height="15" />
-            <RowDefinition Height="0.5*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="5*" />
 
-            <RowDefinition Height="0.3*" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="0.6*" />
 
-            <RowDefinition Height="15" />
-            <RowDefinition Height="0.5*" />
+                <RowDefinition Height="0.2*" />
 
-            <RowDefinition Height="0.3*" />
-            <RowDefinition Height="30" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="0.6*" />
 
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="0.5*" />
-        </Grid.RowDefinitions>
+                <RowDefinition Height="0.3*" />
+                <RowDefinition Height="30" />
 
-        <TextBlock Panel.ZIndex="10" Text="Username:" Grid.Row="1" Grid.Column="1">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <TextBox Panel.ZIndex="10" x:Name="Username" Grid.Row="2" Grid.Column="1" VerticalAlignment="Stretch" VerticalContentAlignment="Center" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="0.5*" />
+            </Grid.RowDefinitions>
 
-        <TextBlock Panel.ZIndex="10" Text="Password:" Grid.Row="4" Grid.Column="1">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <PasswordBox Panel.ZIndex="10" x:Name="Password" Grid.Row="5" Grid.Column="1" VerticalAlignment="Stretch" VerticalContentAlignment="Center" />
+            <StackPanel Panel.ZIndex="10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" MouseDown="Drag_Window" Margin="0,-2,0,0">
+                <Border Width="300"
+                                Height="35"
+                                Background="#383660"
+                                CornerRadius="5"/>
+            </StackPanel>
+            <Button Content="X"
+                    Panel.ZIndex="10" 
+                    Foreground="White"
+                    FontSize="14"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Click="CloseButton_Click">
 
-        <Button Content="Login"
-                Panel.ZIndex="10" 
-                Foreground="White"
-                FontSize="14"
-                Grid.Row="7"
-                Grid.Column="1">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
+                        <Setter Property="FontSize" Value="10"/>
+                        <Setter Property="Background" Value="#FF2511" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="10" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#db2514" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
 
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
-                    <Setter Property="Background" Value="#878787" />
-                    <Setter Property="Cursor" Value="Hand" />
-                    <Setter Property="Foreground" Value="White" />
-                    <Setter Property="BorderThickness" Value="10" />
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF4C70" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="25" Height="25"
+                                CornerRadius="50"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border Width="100" Height="25"
-                            CornerRadius="12"
-                            Background="{TemplateBinding Background}">
-                        <ContentPresenter VerticalAlignment="Center"
-                                          HorizontalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+            <TextBlock Panel.ZIndex="10" Text="Username:" Grid.Row="2" Grid.Column="1">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontSize" Value="14" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBox Panel.ZIndex="10" 
+                     x:Name="Username" 
+                     Grid.Row="3" 
+                     Grid.Column="1" 
+                     VerticalAlignment="Stretch" 
+                     VerticalContentAlignment="Center" />
 
-        <Image Panel.ZIndex="10" x:Name="loginicon" Width="150" Height="100" VerticalAlignment="Top" Stretch="Uniform" Source="{StaticResource loginimage}" Grid.Column="1" Margin="25,31,25,0" />
+            <TextBlock Panel.ZIndex="10" Text="Password:" Grid.Row="5" Grid.Column="1">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontSize" Value="14" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <PasswordBox Panel.ZIndex="10" 
+                         x:Name="Password" 
+                         Grid.Row="6" 
+                         Grid.Column="1" 
+                         VerticalAlignment="Stretch" 
+                         VerticalContentAlignment="Center" />
 
-        <TextBlock Panel.ZIndex="10" Text="Program made by: Levente Varga | EW33EZ" Grid.Row="9" Grid.Column="1" FontSize="10" TextAlignment="Center" />
+            <Button Content="Login"
+                    Panel.ZIndex="10" 
+                    Foreground="White"
+                    FontSize="14"
+                    Grid.Row="8"
+                    Grid.Column="1">
 
-        <Grid Grid.RowSpan="9" Margin="29,-19,-304,8" Grid.Column="1" Grid.ColumnSpan="2">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="TextElement.FontFamily" Value="assets/fonts/#Aquire"/>
+                        <Setter Property="Background" Value="#878787" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="10" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#6e6e6e" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
 
-            <Grid.RenderTransform>
-                <RotateTransform Angle="55"/>
-            </Grid.RenderTransform>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="25"
+                                CornerRadius="12"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
-            <StackPanel Orientation="Horizontal"
-                        Margin="-672,-7,-209,-10">
-                <StackPanel Panel.ZIndex="-1" Width="882">
-                    <Border Width="832"
-                            Height="35"
-                            Background="#3DDDC2"
-                            Margin="20,0,0,0"
-                            CornerRadius="20"/>
+            <Image Panel.ZIndex="10" 
+                   x:Name="loginicon"
+                   Height="128"
+                   Width="128"
+                   VerticalAlignment="Top" 
+                   Stretch="Uniform" 
+                   Source="{StaticResource loginimage}" 
+                   Grid.Column="1" 
+                   Grid.Row="1" 
+                   Margin="36,18,36,0"/>
 
-                    <Border Width="783"
+            <TextBlock Panel.ZIndex="10"
+                       Text="Program made by: Levente Varga | EW33EZ"
+                       Grid.Row="10" Grid.Column="1"
+                       FontSize="10"
+                       TextAlignment="Center" />
+
+            <Grid Grid.RowSpan="9" Margin="29,-19,-304,8" Grid.Column="1" Grid.ColumnSpan="2">
+
+                <Grid.RenderTransform>
+                    <RotateTransform Angle="55"/>
+                </Grid.RenderTransform>
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="-672,-7,-209,-10">
+                    <StackPanel Panel.ZIndex="-1" Width="882">
+                        <Border Width="832"
+                                Height="35"
+                                Background="#3DDDC2"
+                                Margin="20,0,0,0"
+                                CornerRadius="20"/>
+
+                        <Border Width="783"
+                                Height="35"
+                                Background="#FC6586"
+                                Margin="0,15,0,0"
+                                CornerRadius="20"/>
+
+                        <Border Width="828"
+                                Height="35"
+                                Background="#383660"
+                                Margin="35,15,0,0"
+                                CornerRadius="20"/>
+                    </StackPanel>
+
+                    <StackPanel Panel.ZIndex="-1" Width="811">
+                        <Border Width="721"
+                                Height="35"
+                                Background="#3DDDC2"
+                                Margin="20,0,0,0"
+                                CornerRadius="20"/>
+
+                        <Border Width="955"
                             Height="35"
                             Background="#FC6586"
                             Margin="0,15,0,0"
                             CornerRadius="20"/>
 
-                    <Border Width="828"
-                            Height="35"
-                            Background="#383660"
-                            Margin="35,15,0,0"
-                            CornerRadius="20"/>
+                        <Border Width="1094"
+                                Height="35"
+                                Background="#383660"
+                                Margin="35,15,0,0"
+                                CornerRadius="20"/>
+                    </StackPanel>
                 </StackPanel>
+            </Grid>
 
-                <StackPanel Panel.ZIndex="-1" Width="811">
-                    <Border Width="721"
-                            Height="35"
-                            Background="#3DDDC2"
-                            Margin="20,0,0,0"
-                            CornerRadius="20"/>
-
-                    <Border Width="955"
-                        Height="35"
-                        Background="#FC6586"
-                        Margin="0,15,0,0"
-                        CornerRadius="20"/>
-
-                    <Border Width="1094"
-                            Height="35"
-                            Background="#383660"
-                            Margin="35,15,0,0"
-                            CornerRadius="20"/>
-                </StackPanel>
-            </StackPanel>
         </Grid>
-
-    </Grid>
+    </Border>
 </Window>

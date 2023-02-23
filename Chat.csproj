@@ -9,6 +9,10 @@
 
   <ItemGroup>
     <None Remove="assets\fonts\Aquire.ttf" />
+    <None Remove="assets\images\login.png" />
+    <None Remove="assets\images\login_.png" />
+    <None Remove="assets\images\login__.png" />
+    <None Remove="assets\images\login___.png" />
     <None Remove="assets\login.png" />
   </ItemGroup>
 
@@ -17,6 +21,15 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="assets\images\login.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\images\login__.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\images\login_.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\images\login___.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
