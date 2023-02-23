@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.32" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="assets\fonts\Aquire.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

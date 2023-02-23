@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using MySql.Data;
 
 namespace Chat
 {
@@ -38,6 +39,24 @@ namespace Chat
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void LoginBTN(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(Username.Text))
+            {
+                Username.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#c94238");
+            }
+
+            if (string.IsNullOrEmpty(Password.Password))
+            {
+                Password.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#c94238");
+            }
+
+            if(!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
+            {
+
+            }
         }
     }
 }

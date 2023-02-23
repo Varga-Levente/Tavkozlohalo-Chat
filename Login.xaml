@@ -95,7 +95,8 @@
                      Grid.Row="3" 
                      Grid.Column="1" 
                      VerticalAlignment="Stretch" 
-                     VerticalContentAlignment="Center" />
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"/>
 
             <TextBlock Panel.ZIndex="10" Text="Password:" Grid.Row="5" Grid.Column="1">
                 <TextBlock.Style>
@@ -111,14 +112,16 @@
                          Grid.Row="6" 
                          Grid.Column="1" 
                          VerticalAlignment="Stretch" 
-                         VerticalContentAlignment="Center" />
+                         VerticalContentAlignment="Center" 
+                         HorizontalContentAlignment="Center"/>
 
             <Button Content="Login"
                     Panel.ZIndex="10" 
                     Foreground="White"
                     FontSize="14"
                     Grid.Row="8"
-                    Grid.Column="1">
+                    Grid.Column="1"
+                    Click="LoginBTN">
 
                 <Button.Style>
                     <Style TargetType="Button">
