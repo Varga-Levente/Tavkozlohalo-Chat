@@ -94,6 +94,9 @@ namespace Chat
                     //errormesage_text.Text = resultsplit[1];
                     errormesage_text.Text = "Login Success";
                     errormesage_text.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00ff26"));
+                    Window1 _chatwindow = new(Username.Text, resultsplit[1]);
+                    _chatwindow.Show();
+                    this.Close();
                 }
             }
         }

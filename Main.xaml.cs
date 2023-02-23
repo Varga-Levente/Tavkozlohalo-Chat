@@ -19,8 +19,12 @@ namespace Chat
     /// </summary>
     public partial class Window1 : Window
     {
-        public Window1()
+        private static String username;
+        private static String server_ip;
+        public Window1(String Usrname, String SRVIP)
         {
+            username = Usrname;
+            server_ip = SRVIP;
             InitializeComponent();
         }
 
@@ -47,7 +51,7 @@ namespace Chat
 
         void OnLoad(object sender, RoutedEventArgs e)
         {
-            username_txt.Text = "@VLevente";
+            username_txt.Text = "@"+ username;
             mymessage.Focus();
         }
     }
