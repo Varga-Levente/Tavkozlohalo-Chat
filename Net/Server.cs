@@ -6,7 +6,7 @@ namespace Chat.Net
     class Server
     {
         TcpClient _client;
-        private String _host = "localhost";
+        private String _host = "127.0.0.1";
         private int _port = 1298;
 
         public Server()
