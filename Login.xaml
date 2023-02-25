@@ -92,6 +92,7 @@
             </TextBlock>
             <TextBox Panel.ZIndex="10" 
                      x:Name="Username" 
+                     Text="admin"
                      Grid.Row="3" 
                      Grid.Column="1" 
                      VerticalAlignment="Stretch" 
@@ -109,6 +110,7 @@
             </TextBlock>
             <PasswordBox Panel.ZIndex="10" 
                          x:Name="Password" 
+                         Password="admin"
                          Grid.Row="6" 
                          Grid.Column="1" 
                          VerticalAlignment="Stretch" 

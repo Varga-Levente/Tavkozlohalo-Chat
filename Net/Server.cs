@@ -1,25 +1,89 @@
-﻿using System;
+﻿using Chat.Net.IO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Chat.Net
 {
     class Server
     {
         TcpClient _client;
-        private String _host = "localhost";
-        private int _port = 1298;
+        public PacketReader PacketReader;
+
+
+        public event Action connectedEvent;
+
 
         public Server()
         {
             _client = new TcpClient();
         }
 
-        public void ConnectToServer()
-        {
-            if(!_client.Connected)
+        public void ConnectToServer(string username)
+        {   
+            if (!_client.Connected)
             {
-                _client.Connect(_host.ToString(), (int)_port); ;
+                try
+                {
+                    _client.Connect("127.0.0.1", 7890);
+                    if (!_client.Connected)
+                    {
+                        MessageBox.Show("Could not connect to server", "Server Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    PacketReader = new PacketReader(_client.GetStream());
+
+                    if (!string.IsNullOrEmpty(username))
+                    {
+                        var connectPacket = new PacketBuilder();
+                        connectPacket.WriteOpCode(0);
+                        connectPacket.WriteMessage(username);
+                        _client.Client.Send(connectPacket.GetPacketBytes());
+                    }
+                    ReadPackets();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Server Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
+        }
+
+        public bool IsConnected()
+        {
+            return _client.Connected;
+        }
+
+        private void ReadPackets()
+        {
+            Task.Run(() => 
+            { 
+                while (true)
+                {
+                    var opcode = PacketReader.ReadByte();
+                    switch (opcode)
+                    {
+                        case 1:
+                            connectedEvent?.Invoke();
+                            break;
+                        default:
+                            Console.WriteLine("Default");
+                            break;
+                    }
+                }
+            });
+        }
+
+        public void SendMessageToServer(String message) 
+        {
+            var messagePacket = new PacketBuilder();
+            messagePacket.WriteOpCode(5);
+            messagePacket.WriteMessage(message);
+            _client.Client.Send(messagePacket.GetPacketBytes());
         }
     }
 }

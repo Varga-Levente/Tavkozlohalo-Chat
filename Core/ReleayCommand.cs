@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Chat.Core
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Action<object> execute;
         private Func<object, bool> canExecute;
@@ -26,12 +26,12 @@ namespace Chat.Core
 
         public bool CanExecute(object parameter)
         {
-            return this.canExecute == null || this.canExecute(parameter);
+            return canExecute == null || canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            execute(parameter);
         }
     }
 }

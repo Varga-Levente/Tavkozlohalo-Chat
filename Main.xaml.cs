@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chat.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,39 @@ namespace Chat
     {
         private static String username;
         private static String server_ip;
+        private MainViewModel _viewModel;
         public Window1(String Usrname, String SRVIP)
         {
             username = Usrname;
             server_ip = SRVIP;
             InitializeComponent();
+            _viewModel = new MainViewModel();
+            _viewModel.Username = Usrname;
+            DataContext = _viewModel;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel.ConnectToServerCommand.Execute(null);
+
+
+            try
+            {
+                _viewModel.ConnectToServerCommand.Execute(null);
+                if (!_viewModel.IsConnected)
+                {
+                    mymessage.Text = "";
+                    mymessage.IsReadOnly = false;
+                    statusindicator.Background = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                mymessage.Text = "You are not connected to the chat server! Reload the APP.";
+                mymessage.IsReadOnly = true;
+                statusindicator.Background = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
