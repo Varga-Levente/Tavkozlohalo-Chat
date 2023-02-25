@@ -14,9 +14,9 @@
         ResizeMode="NoResize"
         WindowStyle="None">
 
-    
 
-        <Grid ShowGridLines="False" Loaded="OnLoad">
+
+    <Grid PreviewKeyDown="EnterSend" ShowGridLines="False" Loaded="OnLoad">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.2*" />
             <ColumnDefinition Width="2.3*" />
@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
-            
+
             <RowDefinition Height="0.2*" />
 
             <RowDefinition Height="10*" />
@@ -41,14 +41,14 @@
 
             <RowDefinition Height="0.2*" />
         </Grid.RowDefinitions>
-        
+
         <!--Top Bar-->
         <StackPanel Panel.ZIndex="10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9" MouseDown="Drag_Window" Margin="0,-2,0,0">
             <Border Width="1000"
                      Height="35"
                      Background="#383660"
                      CornerRadius="5"/>
-            
+
         </StackPanel>
         <!--Top Bar 2nd layer-->
         <StackPanel Panel.ZIndex="11" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" MouseDown="Drag_Window" Margin="0,-2,0,0">
@@ -136,7 +136,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            
+
             <!--Close Button-->
             <Button Content="X"
                 Foreground="White"
@@ -177,8 +177,17 @@
         <!--Chatting area-->
         <Border Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" CornerRadius="5" Background="#383660">
             <StackPanel>
-                <ListView x:Name="chatingarea" Height="356" Background="Transparent" BorderThickness="0">
-                    
+                <ListView x:Name="chatingarea" Width="560" Height="356" Foreground="White" FontSize="14" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Messages}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Focusable" Value="false"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" Width="531" TextWrapping="Wrap"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </StackPanel>
         </Border>
@@ -207,7 +216,7 @@
         <!--Message area-->
         <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" CornerRadius="5" Background="#383660">
             <StackPanel>
-                <TextBox Text="You are not connected to the chat server! Reload the APP." IsReadOnly="True" Name="mymessage" Height="36" Background="Transparent" BorderBrush="Transparent" Foreground="White" CaretBrush="White" FontSize="20" VerticalContentAlignment="Center" BorderThickness="0" Margin="10,0,10,0"/>
+                <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Name="mymessage" Height="36" Background="Transparent" BorderBrush="Transparent" Foreground="White" CaretBrush="White" FontSize="20" VerticalContentAlignment="Center" BorderThickness="0" Margin="10,0,10,0"/>
                 <StackPanel.Style>
                     <Style>
 
@@ -215,11 +224,11 @@
                 </StackPanel.Style>
             </StackPanel>
         </Border>
-    
-        <!--Send Mesaage Button-->
 
-        <Button Name="msgsend" Grid.Column="3" Grid.Row="4" BorderThickness="0" Width="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-            <Image Source="{StaticResource send}"  />
+        <!--Send Mesaage Button-->
+        <Button Panel.ZIndex="20" Name="msgsend" Grid.Column="3" Grid.Row="3" Margin="2,7,1,7" Grid.RowSpan="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="CrearMessage" >
+            <Image Panel.ZIndex="19" Source="{StaticResource send}"  />
+            <!--On Press enter run this-->
         </Button>
 
     </Grid>

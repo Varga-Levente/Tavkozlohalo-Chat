@@ -47,7 +47,7 @@ namespace Chat
                     mymessage.IsReadOnly = false;
                     statusindicator.Background = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -56,6 +56,22 @@ namespace Chat
                 statusindicator.Background = new SolidColorBrush(Color.FromRgb(255, 0, 0));
             }
         }
+
+        private void EnterSend(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                _viewModel.SendMessageCommand.Execute(null);
+                mymessage.Text = "";
+            }
+        }
+
+        private void CrearMessage(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SendMessageCommand.Execute(null);
+            mymessage.Text = "";
+        }
+
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {

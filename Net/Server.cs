@@ -16,6 +16,8 @@ namespace Chat.Net
 
 
         public event Action connectedEvent;
+        public event Action msgRecievedEvent;
+        public event Action userDisconnectEvent;
 
 
         public Server()
@@ -29,7 +31,7 @@ namespace Chat.Net
             {
                 try
                 {
-                    _client.Connect("127.0.0.1", 7890);
+                    _client.Connect("10.10.0.200", 7890);
                     if (!_client.Connected)
                     {
                         MessageBox.Show("Could not connect to server", "Server Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -69,6 +71,12 @@ namespace Chat.Net
                     {
                         case 1:
                             connectedEvent?.Invoke();
+                            break;
+                        case 5:
+                            msgRecievedEvent?.Invoke();
+                            break;
+                        case 10:
+                            userDisconnectEvent?.Invoke();
                             break;
                         default:
                             Console.WriteLine("Default");

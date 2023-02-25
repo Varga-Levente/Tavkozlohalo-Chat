@@ -14,7 +14,9 @@ namespace Chat.ViewModel
     class MainViewModel
     {
         public ObservableCollection<UserModel> Users { get; set; }
+        public ObservableCollection<String> Messages { get; set; }
         public RelayCommand ConnectToServerCommand { get; set; }
+        public RelayCommand SendMessageCommand { get; set; }
         public string Username { get; set; }
         public string Message { get; set; }
         public Boolean IsConnected { get; set; }
@@ -23,12 +25,33 @@ namespace Chat.ViewModel
         public MainViewModel()
         {
             Users = new ObservableCollection<UserModel>();
+            Messages = new ObservableCollection<string>();
+
             _server = new Server();
+
             _server.connectedEvent += UserConnected;
+            _server.msgRecievedEvent += MessageRecieved;
+            _server.userDisconnectEvent += RemoceUser;
+
             ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(Username), o => !string.IsNullOrEmpty(Username));
-            //If connection is established set IsConnected to true
+            SendMessageCommand = new RelayCommand(o => _server.SendMessageToServer(Message), o => !string.IsNullOrEmpty(Message));
+
+            //If connection is established set IsConnected to true (ONLY FOR TESTING)
             IsConnected = _server.IsConnected();
 
+        }
+
+        private void RemoceUser()
+        {
+            var uid = _server.PacketReader.ReadMessage();
+            var user = Users.Where(x => x.UID == uid).FirstOrDefault();
+            Application.Current.Dispatcher.Invoke(() => Users.Remove(user));
+        }
+
+        private void MessageRecieved()
+        {
+            var msg = _server.PacketReader.ReadMessage();
+            Application.Current.Dispatcher.Invoke(() => Messages.Add(msg));
         }
 
         private void UserConnected()

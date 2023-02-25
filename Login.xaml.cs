@@ -76,7 +76,7 @@ namespace Chat
 
             if (!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
             {
-                var authenticateUser = new AuthenticateUser("http://127.0.0.1:5000/check-user");
+                var authenticateUser = new AuthenticateUser("http://10.10.0.200:5000/check-user");
                 var result = await authenticateUser.AuthenticateAsync(Username.Text, ComputeSha512Hash(Password.Password));
 
                 var resultsplit = result.Split(':');
