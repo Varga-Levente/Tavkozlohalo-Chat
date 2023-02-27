@@ -31,7 +31,7 @@ namespace Chat.Net
             {
                 try
                 {
-                    _client.Connect("10.10.0.200", 7890);
+                    _client.Connect("178.218.144.55", 7890);
                     if (!_client.Connected)
                     {
                         MessageBox.Show("Could not connect to server", "Server Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
