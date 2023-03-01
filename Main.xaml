@@ -195,12 +195,7 @@
         <!--Online User area-->
         <Border Grid.Column="5" Grid.RowSpan="3" Grid.Row="2" Grid.ColumnSpan="3" CornerRadius="5" Background="#383660">
             <StackPanel>
-                <ListView Height="400" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Users}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Focusable" Value="false"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
+                <ListView x:Name="userlist" Height="400" Background="Transparent" BorderThickness="0" SelectionChanged="ListView_SelectionChanged" ItemsSource="{Binding Users}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -216,7 +211,7 @@
         <!--Message area-->
         <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" CornerRadius="5" Background="#383660">
             <StackPanel>
-                <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Name="mymessage" Height="36" Background="Transparent" BorderBrush="Transparent" Foreground="White" CaretBrush="White" FontSize="20" VerticalContentAlignment="Center" BorderThickness="0" Margin="10,0,10,0"/>
+                <TextBox TabIndex="0" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Name="mymessage" Height="36" Background="Transparent" BorderBrush="Transparent" Foreground="White" CaretBrush="White" FontSize="20" VerticalContentAlignment="Center" BorderThickness="0" Margin="10,0,10,0"/>
                 <StackPanel.Style>
                     <Style>
 

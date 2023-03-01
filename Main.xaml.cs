@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Chat.Model;
 
 namespace Chat
 {
@@ -53,6 +54,19 @@ namespace Chat
                 mymessage.Text = "You are not connected to the chat server! Reload the APP.";
                 mymessage.IsReadOnly = true;
                 statusindicator.Background = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            }
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (userlist.SelectedItem != null)
+            {
+                UserModel selectedUser = (UserModel)userlist.SelectedItem;
+                mymessage.Text = "/p " + selectedUser.Username + " ";
+                // Focus the textbox to allow the user to type
+                mymessage.Focus();
+                // Deselect the item
+                userlist.SelectedItem = null;
             }
         }
 
