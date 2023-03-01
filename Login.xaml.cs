@@ -1,5 +1,6 @@
 ﻿using Chat.Net;
 using System;
+using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
@@ -18,6 +19,11 @@ namespace Chat
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public static string Config(String name)
+        {
+            return ConfigurationManager.AppSettings[name];
         }
 
         static string ComputeSha512Hash(string s)
@@ -76,7 +82,7 @@ namespace Chat
 
             if (!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
             {
-                var authenticateUser = new AuthenticateUser("http://51.68.172.121:5000/check-user");
+                var authenticateUser = new AuthenticateUser(Config("API_Server_Protocol")+"://"+Config("API_Server_IP")+":"+Config("API_Server_Port")+"/"+Config("API_Server_Route"));
                 var result = await authenticateUser.AuthenticateAsync(Username.Text, ComputeSha512Hash(Password.Password));
 
                 var resultsplit = result.Split(':');

@@ -41,9 +41,9 @@
 
             <StackPanel Panel.ZIndex="10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" MouseDown="Drag_Window" Margin="0,0,0,0">
                 <Border Width="300"
-                                Height="35"
-                                Background="#4e4b82"
-                                CornerRadius="0,0,10,10"/>
+                        Height="35"
+                        Background="#4e4b82"
+                        CornerRadius="0,0,10,10"/>
             </StackPanel>
             <Button Content="X"
                     Panel.ZIndex="10" 
@@ -94,7 +94,7 @@
                      x:Name="Username" 
                      Text="admin"
                      Grid.Row="3" 
-                     Grid.Column="1" 
+                     Grid.Column="1"
                      VerticalAlignment="Stretch" 
                      VerticalContentAlignment="Center"
                      HorizontalContentAlignment="Center"/>

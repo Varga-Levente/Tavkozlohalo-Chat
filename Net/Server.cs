@@ -1,6 +1,7 @@
 ﻿using Chat.Net.IO;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -31,7 +32,7 @@ namespace Chat.Net
             {
                 try
                 {
-                    _client.Connect("178.218.144.55", 7890);
+                    _client.Connect(ConfigurationManager.AppSettings["Chat_Server"], Int32.Parse(ConfigurationManager.AppSettings["Chat_Server_Port"]));
                     if (!_client.Connected)
                     {
                         MessageBox.Show("Could not connect to server", "Server Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
