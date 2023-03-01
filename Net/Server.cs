@@ -76,6 +76,9 @@ namespace Chat.Net
                         case 5:
                             msgRecievedEvent?.Invoke();
                             break;
+                        case 55:
+                            msgRecievedEvent?.Invoke();
+                            break;
                         case 10:
                             userDisconnectEvent?.Invoke();
                             break;
@@ -90,7 +93,14 @@ namespace Chat.Net
         public void SendMessageToServer(String message) 
         {
             var messagePacket = new PacketBuilder();
-            messagePacket.WriteOpCode(5);
+            if (message[0]== char.Parse("/"))
+            {
+                messagePacket.WriteOpCode(55);
+            }
+            else
+            {
+                messagePacket.WriteOpCode(5);
+            }
             messagePacket.WriteMessage(message);
             _client.Client.Send(messagePacket.GetPacketBytes());
         }

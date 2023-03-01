@@ -12,14 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Media.Devices;
-using Windows.UI.Xaml;
 
 namespace Chat
 {

@@ -31,7 +31,7 @@ namespace Chat.ViewModel
 
             _server.connectedEvent += UserConnected;
             _server.msgRecievedEvent += MessageRecieved;
-            _server.userDisconnectEvent += RemoceUser;
+            _server.userDisconnectEvent += RemoteUser;
 
             ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(Username), o => !string.IsNullOrEmpty(Username));
             SendMessageCommand = new RelayCommand(o => _server.SendMessageToServer(Message), o => !string.IsNullOrEmpty(Message));
@@ -41,7 +41,7 @@ namespace Chat.ViewModel
 
         }
 
-        private void RemoceUser()
+        private void RemoteUser()
         {
             var uid = _server.PacketReader.ReadMessage();
             var user = Users.Where(x => x.UID == uid).FirstOrDefault();
