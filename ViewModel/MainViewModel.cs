@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Chat.ViewModel
 {
@@ -38,7 +39,6 @@ namespace Chat.ViewModel
 
             //If connection is established set IsConnected to true (ONLY FOR TESTING)
             IsConnected = _server.IsConnected();
-
         }
 
         private void RemoteUser()

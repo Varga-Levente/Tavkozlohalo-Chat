@@ -24,6 +24,7 @@ namespace Chat
         private static String username;
         private static String server_ip;
         private MainViewModel _viewModel;
+        private UserModel _selectedUser;
         public Window1(String Usrname, String SRVIP)
         {
             username = Usrname;
@@ -32,6 +33,35 @@ namespace Chat
             _viewModel = new MainViewModel();
             _viewModel.Username = Usrname;
             DataContext = _viewModel;
+        }
+
+        private void MenuItem_SendFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (userlist.SelectedItem != null)
+            {
+                MessageBox.Show("This feature is not implemented yet.", "Missing function {MenuItem_SendFile_Click}", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void MenuItem_VoiceCall_Click(object sender, RoutedEventArgs e)
+        {
+            if (userlist.SelectedItem != null)
+            {
+                MessageBox.Show("This feature is not implemented yet.", "Missing function {MenuItem_VoiceCall_Click}", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void MenuItem_PrivateMessage_Click(object sender, RoutedEventArgs e)
+        {
+            if (userlist.SelectedItem != null)
+            {
+                UserModel selectedUser = (UserModel)userlist.SelectedItem;
+                mymessage.Text = "/p " + selectedUser.Username + " ";
+                // Focus the textbox to allow the user to type
+                mymessage.Focus();
+                // Deselect the item
+                userlist.SelectedItem = null;
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -54,19 +84,6 @@ namespace Chat
                 mymessage.Text = "You are not connected to the chat server! Reload the APP.";
                 mymessage.IsReadOnly = true;
                 statusindicator.Background = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-            }
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (userlist.SelectedItem != null)
-            {
-                UserModel selectedUser = (UserModel)userlist.SelectedItem;
-                mymessage.Text = "/p " + selectedUser.Username + " ";
-                // Focus the textbox to allow the user to type
-                mymessage.Focus();
-                // Deselect the item
-                userlist.SelectedItem = null;
             }
         }
 
