@@ -4,6 +4,11 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Chat.Model;
+using Microsoft.Win32;
+using System.IO;
+using System.Net;
+using System.Windows.Controls;
+using System.Threading;
 
 namespace Chat
 {
@@ -54,13 +59,57 @@ namespace Chat
         }
 
         // Context menu click events
-        private void MenuItem_SendFile_Click(object sender, RoutedEventArgs e)
+        private async void MenuItem_SendFile_Click(object sender, RoutedEventArgs e)
         {
             if (userlist.SelectedItem != null)
             {
-                MessageBox.Show("This feature is not implemented yet.", "Missing function {MenuItem_SendFile_Click}", MessageBoxButton.OK, MessageBoxImage.Error);
+                var openFileDialog = new OpenFileDialog();
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    UploadStatus _progress = new();
+                    _progress.Show();
+
+                    var client = new WebClient();
+
+                    var filesize = new FileInfo(openFileDialog.FileName).Length;
+
+                    bool cancelled = false;
+                    _progress.Closed += (s, evt) => {
+                        cancelled = true;
+                        client.CancelAsync();
+                    };
+
+                    client.UploadProgressChanged += (s, evt) =>
+                    {
+                        if (cancelled)
+                        {
+                            return;
+                        }
+
+                        _progress.SetProgress((int)Math.Round((double)evt.BytesSent / filesize * 100));
+                    };
+
+                    try
+                    {
+                        await client.UploadFileTaskAsync(new Uri("http://localhost:5000/upload"), openFileDialog.FileName);
+                        _progress.Close();
+                        MessageBox.Show("Upload Success.", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (WebException ex) when (cancelled && ex.Status == WebExceptionStatus.RequestCanceled)
+                    {
+                        _progress.Close();
+                        MessageBox.Show("Upload Cancelled.", "Cancelled", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        _progress.Close();
+                        MessageBox.Show($"Upload Failed: {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
             }
         }
+
+
 
         private void MenuItem_VoiceCall_Click(object sender, RoutedEventArgs e)
         {
