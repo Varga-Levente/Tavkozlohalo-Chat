@@ -196,6 +196,11 @@
         <Border Grid.Column="5" Grid.RowSpan="3" Grid.Row="2" Grid.ColumnSpan="3" CornerRadius="5" Background="#383660">
             <StackPanel>
                 <ListView x:Name="userlist" Height="400" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Users}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <EventSetter Event="MouseDoubleClick" Handler="MenuItem_PrivateMessage_Click"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

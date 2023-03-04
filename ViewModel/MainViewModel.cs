@@ -6,8 +6,11 @@ using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,8 +24,12 @@ namespace Chat.ViewModel
         public ObservableCollection<String> Messages { get; set; }
         public RelayCommand ConnectToServerCommand { get; set; }
         public RelayCommand SendMessageCommand { get; set; }
+        public RelayCommand SendFileRequest { get; set; }
         public string Username { get; set; }
         public string Message { get; set; }
+        public string toUser { get; set; }
+        public string filename { get; set; }
+        public string downloadurl { get; set; }
         public Boolean IsConnected { get; set; }
         private Server _server;
 
@@ -36,12 +43,46 @@ namespace Chat.ViewModel
             _server.connectedEvent += UserConnected;
             _server.msgRecievedEvent += MessageRecieved;
             _server.userDisconnectEvent += RemoteUser;
+            _server.IncomingFile += IncomingFile;
 
             ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(Username), o => !string.IsNullOrEmpty(Username));
             SendMessageCommand = new RelayCommand(o => _server.SendMessageToServer(Message), o => !string.IsNullOrEmpty(Message));
+            SendFileRequest = new RelayCommand(
+                o => _server.SendFileRequest(toUser, filename, downloadurl),
+                o => !string.IsNullOrEmpty(toUser) && !string.IsNullOrEmpty(filename) && !string.IsNullOrEmpty(downloadurl)
+            );
+
 
             //If connection is established set IsConnected to true (ONLY FOR TESTING)
             IsConnected = _server.IsConnected();
+        }
+
+        private async void IncomingFile()
+        {
+            var msg = _server.PacketReader.ReadMessage();
+            var msgparts = msg.Split("|");
+            var fromUser = msgparts[0];
+            var filename = Path.GetFileName(msgparts[1]);
+            var downloadurl = msgparts[2];
+
+            var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", filename);
+
+            var result = MessageBox.Show($"Do you want to download {filename}?", "Download file", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                using (var client = new WebClient())
+                {
+                    try
+                    {
+                        await client.DownloadFileTaskAsync(downloadurl, downloadPath);
+                        MessageBox.Show($"File downloaded to {downloadPath}", "Download complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error downloading file: {ex.Message}", "Download error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
 
         private void RemoteUser()

@@ -82,7 +82,7 @@ namespace Chat
 
             if (!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
             {
-                var authenticateUser = new AuthenticateUser(Config("API_Server_Protocol")+"://"+Config("API_Server_IP")+":"+Config("API_Server_Port")+"/"+Config("API_Server_Route"));
+                var authenticateUser = new AuthenticateUser(Config("API_Server_Protocol")+"://"+Config("API_Server_IP")+":"+Config("API_Server_Port")+"/"+Config("API_Server_CheckUserRoute"));
                 var result = await authenticateUser.AuthenticateAsync(Username.Text, ComputeSha512Hash(Password.Password));
 
                 var resultsplit = result.Split(':');

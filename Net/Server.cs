@@ -19,6 +19,7 @@ namespace Chat.Net
         public event Action connectedEvent;
         public event Action msgRecievedEvent;
         public event Action userDisconnectEvent;
+        public event Action IncomingFile;
 
 
         public Server()
@@ -82,6 +83,9 @@ namespace Chat.Net
                         case 10:
                             userDisconnectEvent?.Invoke();
                             break;
+                        case 21:
+                            IncomingFile?.Invoke();
+                            break;
                         default:
                             Console.WriteLine("Default");
                             break;
@@ -103,6 +107,14 @@ namespace Chat.Net
             }
             messagePacket.WriteMessage(message);
             _client.Client.Send(messagePacket.GetPacketBytes());
+        }
+
+        public void SendFileRequest(String filename, String toUser, String downloadurl)
+        {
+            var packet = new PacketBuilder();
+            packet.WriteOpCode(20);
+            packet.WriteMessage($"{toUser}|{filename}|{downloadurl}");
+            _client.Client.Send(packet.GetPacketBytes());
         }
     }
 }

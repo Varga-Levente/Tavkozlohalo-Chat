@@ -9,6 +9,9 @@ using System.IO;
 using System.Net;
 using System.Windows.Controls;
 using System.Threading;
+using System.Text;
+using Newtonsoft.Json.Linq;
+using System.Configuration;
 
 namespace Chat
 {
@@ -18,6 +21,12 @@ namespace Chat
         private static String server_ip;
         private MainViewModel _viewModel;
         private UserModel _selectedUser;
+
+        public static string Config(String name)
+        {
+            return ConfigurationManager.AppSettings[name];
+        }
+
         public Window1(String Usrname, String SRVIP)
         {
             username = Usrname;
@@ -91,9 +100,30 @@ namespace Chat
 
                     try
                     {
-                        await client.UploadFileTaskAsync(new Uri("http://localhost:5000/upload"), openFileDialog.FileName);
+                        var maxFileSize = 2147483648; // 2GB méret korlát
+
+                        var fileSize = new FileInfo(openFileDialog.FileName).Length;
+
+                        if (fileSize > maxFileSize)
+                        {
+                            _progress.Close();
+                            MessageBox.Show("The file size cannot be larger than 2GB.", "Warning!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
+                        var responseBytes = await client.UploadFileTaskAsync(new Uri($"http://{Config("API_Server_IP")}:{Config("API_Server_Port")}/{Config("API_Server_UploadRoute")}"), openFileDialog.FileName);
+                        string responseString = Encoding.UTF8.GetString(responseBytes);
+                        JObject responseObject = JObject.Parse(responseString);
+                        string url = responseObject["url"].ToString();
+                        url = url.Replace("localhost", Config("API_Server_DownloadRoute"));
                         _progress.Close();
-                        MessageBox.Show("Upload Success.", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+                        UserModel selectedUser = (UserModel)userlist.SelectedItem;
+
+                        _viewModel.toUser = selectedUser.Username;
+                        _viewModel.filename = openFileDialog.FileName;
+                        _viewModel.downloadurl = url;
+
+                        _viewModel.SendFileRequest.Execute(null);
                     }
                     catch (WebException ex) when (cancelled && ex.Status == WebExceptionStatus.RequestCanceled)
                     {
