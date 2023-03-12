@@ -16,16 +16,19 @@ namespace Chat
 
     public partial class MainWindow : Window
     {
+        // Main window constructor
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        // Get the config from the app.config file
         public static string Config(String name)
         {
             return ConfigurationManager.AppSettings[name];
         }
 
+        // Function to hash the password with SHA512 and to lower the string to match the database hash
         static string ComputeSha512Hash(string s)
         {
             StringBuilder sb = new StringBuilder();
@@ -41,6 +44,7 @@ namespace Chat
             return sb.ToString().ToLower();
         }
 
+        // Make window draggable on top bar
         private void Drag_Window(object sender, MouseButtonEventArgs e)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
@@ -49,11 +53,22 @@ namespace Chat
             }
         }
 
+        // Cutom close button
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        // On press enter simulate login button click
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                LoginBTN(null, null);
+            }
+        }
+
+        // Function to login and check if the user is valid with the API POST request
         private async void LoginBTN(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(Username.Text))
@@ -82,7 +97,13 @@ namespace Chat
 
             if (!string.IsNullOrEmpty(Password.Password) && !string.IsNullOrEmpty(Username.Text))
             {
-                var authenticateUser = new AuthenticateUser(Config("API_Server_Protocol")+"://"+Config("API_Server_IP")+":"+Config("API_Server_Port")+"/"+Config("API_Server_CheckUserRoute"));
+                var authenticateUser = new AuthenticateUser(
+                        Config("API_Server_Protocol")+"://"+
+                        Config("API_Server_IP")+":"+
+                        Config("API_Server_Port")+"/"+
+                        Config("API_Server_CheckUserRoute")
+                );
+
                 var result = await authenticateUser.AuthenticateAsync(Username.Text, ComputeSha512Hash(Password.Password));
 
                 var resultsplit = result.Split(':');
@@ -95,8 +116,6 @@ namespace Chat
                 }
                 else
                 {
-                    //Returns Chat Server IP
-                    //errormesage_text.Text = resultsplit[1];
                     errormesage_text.Text = "Login Success";
                     errormesage_text.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00ff26"));
                     errormesage_back.Visibility = Visibility.Visible;

@@ -84,22 +84,5 @@
         <TextBlock Text="{Binding ElementName=uploadprogress, Path=Value, StringFormat={}{0:0}%}" 
            HorizontalAlignment="Center" 
            VerticalAlignment="Center" />
-
-        <Grid>
-            <ProgressBar Name="pbUsrLvl"
-                 Minimum="1" 
-                 Maximum="99" 
-                 Value="59" 
-                 Margin="5"  
-                 Height="24"  Foreground="#FF62FF7F"/>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}UserLvl:{0}/{1}">
-                        <Binding Path="Value" ElementName="pbUsrLvl" />
-                        <Binding Path="Maximum" ElementName="pbUsrLvl" />
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
-        </Grid>
     </Grid>
 </Window>

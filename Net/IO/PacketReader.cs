@@ -14,6 +14,7 @@ namespace Chat.Net.IO
             _ns = ns;
         }
 
+        // Reads the incoming packet and returns entire packet as a string
         public string ReadMessage()
         {
             byte[] msgBuffer;

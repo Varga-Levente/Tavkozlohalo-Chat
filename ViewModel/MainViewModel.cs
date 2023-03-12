@@ -54,7 +54,7 @@ namespace Chat.ViewModel
             var msg = _server.PacketReader.ReadMessage();
             var msgparts = msg.Split("|");
             var fromUser = msgparts[0];
-            var filename = Path.GetFileName(msgparts[1]);
+            var filename = Path.GetFileName(msgparts[1]).ToUTF8();
             var downloadurl = msgparts[2];
 
             var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", filename);
@@ -62,21 +62,25 @@ namespace Chat.ViewModel
             var result = MessageBox.Show($"Do you want to download {filename}?", "Download file", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
+                Application.Current.Dispatcher.Invoke(() => Messages.Add("[FILE] - File download started in the background"));
                 using (var client = new WebClient())
                 {
                     try
                     {
                         await client.DownloadFileTaskAsync(downloadurl, downloadPath);
+                        Application.Current.Dispatcher.Invoke(() => Messages.Add("[FILE] - Download completed"));
                         MessageBox.Show($"File downloaded to {downloadPath}", "Download complete", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception ex)
                     {
+                        Application.Current.Dispatcher.Invoke(() => Messages.Add("[FILE ERROR] - Error while downloading"));
                         MessageBox.Show($"Error downloading file: {ex.Message}", "Download error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
         }
 
+        // This method is called when a user disconnects from the server
         private void RemoteUser()
         {
             var uid = _server.PacketReader.ReadMessage();
@@ -84,12 +88,14 @@ namespace Chat.ViewModel
             Application.Current.Dispatcher.Invoke(() => Users.Remove(user));
         }
 
+        // This method is called when a message is recieved from the server
         private void MessageRecieved()
         {
             var msg = _server.PacketReader.ReadMessage();
             Application.Current.Dispatcher.Invoke(() => Messages.Add(msg));
         }
 
+        // This method is called when a user connects to the server
         private void UserConnected()
         {
             var user = new UserModel

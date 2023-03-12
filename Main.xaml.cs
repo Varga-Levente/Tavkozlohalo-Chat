@@ -12,21 +12,33 @@ using System.Threading;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Configuration;
+using System.Web;
 
 namespace Chat
 {
+    // String extension class to force UTF8 encoding
+    public static class StringExtensions
+    {
+        public static string ToUTF8(this string text)
+        {
+            return Encoding.UTF8.GetString(Encoding.Default.GetBytes(text));
+        }
+    }
+
     public partial class Window1 : Window
     {
         private static String username;
-        private static String server_ip;
+        private static String server_ip;    // Currently not in use (Possible multi server communiction)
         private MainViewModel _viewModel;
-        private UserModel _selectedUser;
+        private UserModel _selectedUser;    // [Currently not in use] Define the selected user from the userlist (for sending files)
 
+        // Get the config from the app.config file
         public static string Config(String name)
         {
             return ConfigurationManager.AppSettings[name];
         }
 
+        // Main window constructor
         public Window1(String Usrname, String SRVIP)
         {
             username = Usrname;
@@ -37,13 +49,15 @@ namespace Chat
             DataContext = _viewModel;
         }
 
-        // Window onload event
+        // Window onload event (Set the username and focus on the message box)
         void OnLoad(object sender, RoutedEventArgs e)
         {
             username_txt.Text = "@" + username;
             mymessage.Focus();
         }
 
+        // On main main view load check if can connect to the server and set the status indicator color and text accordingly
+        // (Green = Connected, Red = Not connected)
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _viewModel.ConnectToServerCommand.Execute(null);
@@ -67,7 +81,9 @@ namespace Chat
             }
         }
 
-        // Context menu click events
+        // Context menu click events (Send file)
+        // Max file size 2GB (2147483648 bytes) (Can be changed in the app.config file)
+        // If change the max file size, after you need to change some parameter in the API too
         private async void MenuItem_SendFile_Click(object sender, RoutedEventArgs e)
         {
             if (userlist.SelectedItem != null)
@@ -120,8 +136,11 @@ namespace Chat
                         UserModel selectedUser = (UserModel)userlist.SelectedItem;
 
                         _viewModel.toUser = selectedUser.Username;
-                        _viewModel.filename = openFileDialog.FileName;
+                        _viewModel.filename = openFileDialog.FileName.ToString();
                         _viewModel.downloadurl = url;
+
+                        MessageBox.Show("File uploaded successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        userlist.SelectedItem = null;
 
                         _viewModel.SendFileRequest.Execute(null);
                     }
@@ -129,18 +148,20 @@ namespace Chat
                     {
                         _progress.Close();
                         MessageBox.Show("Upload Cancelled.", "Cancelled", MessageBoxButton.OK, MessageBoxImage.Error);
+                        userlist.SelectedItem = null;
                     }
                     catch (Exception ex)
                     {
                         _progress.Close();
                         MessageBox.Show($"Upload Failed: {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        userlist.SelectedItem = null;
                     }
                 }
             }
         }
 
-
-
+        // Context menu click events (Voice call) [Currently not in use]
+        // Displays a message box with a "This featuere is not implemented yet." message
         private void MenuItem_VoiceCall_Click(object sender, RoutedEventArgs e)
         {
             if (userlist.SelectedItem != null)
@@ -149,6 +170,9 @@ namespace Chat
             }
         }
 
+        // Context menu click event (Private message)
+        // Set the message textbox text to "/p @username " and focus on the textbox
+        // Deselect the selected user from the userlist
         private void MenuItem_PrivateMessage_Click(object sender, RoutedEventArgs e)
         {
             if (userlist.SelectedItem != null)

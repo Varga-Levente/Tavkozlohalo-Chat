@@ -92,12 +92,21 @@
             </TextBlock>
             <TextBox Panel.ZIndex="10" 
                      x:Name="Username" 
-                     Text="admin"
+                     Text=""
                      Grid.Row="3" 
                      Grid.Column="1"
                      VerticalAlignment="Stretch" 
                      VerticalContentAlignment="Center"
-                     HorizontalContentAlignment="Center"/>
+                     HorizontalContentAlignment="Center"
+                     PreviewKeyDown="TextBox_PreviewKeyDown">
+                <TextBox.Template>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border CornerRadius="10" BorderBrush="Gray" Opacity="1" Background="White" BorderThickness="1">
+                            <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" />
+                        </Border>
+                    </ControlTemplate>
+                </TextBox.Template>
+            </TextBox>
 
             <TextBlock Panel.ZIndex="10" Text="Password:" Grid.Row="5" Grid.Column="1">
                 <TextBlock.Style>
@@ -110,12 +119,21 @@
             </TextBlock>
             <PasswordBox Panel.ZIndex="10" 
                          x:Name="Password" 
-                         Password="admin"
+                         Password=""
                          Grid.Row="6" 
                          Grid.Column="1" 
                          VerticalAlignment="Stretch" 
                          VerticalContentAlignment="Center" 
-                         HorizontalContentAlignment="Center"/>
+                         HorizontalContentAlignment="Center"
+                         PreviewKeyDown="TextBox_PreviewKeyDown">
+                <PasswordBox.Template>
+                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                        <Border CornerRadius="10" BorderBrush="Gray" Opacity="1" Background="White" BorderThickness="1">
+                            <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" />
+                        </Border>
+                    </ControlTemplate>
+                </PasswordBox.Template>
+            </PasswordBox>
 
             <Button Content="Login"
                     Panel.ZIndex="10" 

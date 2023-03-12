@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -18,6 +14,9 @@ namespace Chat.Net
             _apiUrl = apiUrl;
         }
 
+        // Authenticate the user with the API POST request
+        // The API returns a string with the response and info
+        // The response is either "Success" or "Error"
         public async Task<string> AuthenticateAsync(string username, string passwordHash)
         {
             var client = new HttpClient();
