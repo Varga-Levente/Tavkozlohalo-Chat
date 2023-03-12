@@ -1,20 +1,12 @@
 ﻿using Chat.Core;
 using Chat.Model;
 using Chat.Net;
-using Chat.Net.IO;
-using MySqlX.XDevAPI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Chat.ViewModel
 {
