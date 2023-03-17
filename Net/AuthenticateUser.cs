@@ -30,6 +30,8 @@ namespace Chat.Net
             var responseString = await response.Content.ReadAsStringAsync();
             var json = JsonDocument.Parse(responseString);
 
+            // *UPDATE RESPONSES!*
+            // *New responses: (Resp[Err,Succ] | MSG[*])*
             var responseValue = json.RootElement.GetProperty("Response").GetString();
             var infoValue = json.RootElement.GetProperty("Info").GetString();
 
